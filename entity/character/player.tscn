@@ -1,10 +1,15 @@
-[gd_scene load_steps=2 format=3 uid="uid://b1pmaal5br6wg"]
+[gd_scene load_steps=3 format=3 uid="uid://b1pmaal5br6wg"]
 
 [ext_resource type="Texture2D" uid="uid://beakstseu8ow4" path="res://art/Sprout Lands - Sprites - Basic pack/Characters/Basic Charakter Spritesheet.png" id="1_15lq3"]
+[ext_resource type="Script" path="res://entity/character/player.gd" id="1_ahvgr"]
 
 [node name="player" type="CharacterBody2D"]
+script = ExtResource("1_ahvgr")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_15lq3")
 hframes = 4
 vframes = 4
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(5, 5)
