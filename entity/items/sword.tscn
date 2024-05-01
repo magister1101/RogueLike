@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://irgn3ijhp2cm"]
+
+[ext_resource type="Texture2D" uid="uid://dr1adk6tk3g2x" path="res://art/items/sword.png" id="1_qpccc"]
+
+[node name="sword" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-5, -5)
+rotation = -1.5708
+texture = ExtResource("1_qpccc")

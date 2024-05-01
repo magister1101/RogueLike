@@ -9,11 +9,13 @@ extends CharacterBody2D
 #arm for gun
 @export var armGun: Node2D;
 @export var aimGun: Marker2D;
-@export var gunSprite: Sprite2D;
+@export var gun: Node2D;
 
 #arm for sword
 @export var armSword: Node2D;
+@export var sword: Node2D;
 
+#bullets
 @onready var bulletInfo = preload("res://entity/effects/bullet.tscn")
 
 var tempPositionsword;
@@ -42,18 +44,22 @@ func handleInput():
 	
 	if isGunAttacking:
 		gunAttack();
+	elif isSwordAttacking:
+		swordAttack();
 		
 	if center.global_rotation < -1.3 and center.global_rotation > -1.7:
-		gunSprite.z_index = -1;
+		gun.z_index = -1;
 	else:
-		gunSprite.z_index = 0;
+		gun.z_index = 0;
 		
 	if center.global_rotation > -1.5 and center.global_rotation < 1.5:
-		gunSprite.flip_v = false;
+		sword.scale.x =+1;
+		gun.scale.y =+1;
 		isArmSwitch = false;
 		
 	elif center.global_rotation < -1.5 or center.global_rotation > 1.5:
-		gunSprite.flip_v = true;
+		gun.scale.y =-1;
+		sword.scale.x =-1;
 		isArmSwitch = true;
 	
 	velocity = moveDirection*speed;
@@ -69,16 +75,16 @@ func switchArm():
 	if isArmSwitch == true:
 		armSword.position = tempPositionGun;
 		armGun.position = tempPositionsword;
-		gunSprite.position.y;
+		gun.position.y;
 		
 	elif isArmSwitch == false:
 		armSword.position = tempPositionsword;
 		armGun.position = tempPositionGun;
-		gunSprite.position.y
+		gun.position.y
 		
 	
 func swordAttack():
-	pass;
+	print_debug("sword attack")
 	
 	
 func gunAttack():
