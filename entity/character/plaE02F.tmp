@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://b1pmaal5br6wg"]
+[gd_scene load_steps=10 format=3 uid="uid://b1pmaal5br6wg"]
 
 [ext_resource type="Texture2D" uid="uid://beakstseu8ow4" path="res://art/Sprout Lands - Sprites - Basic pack/Characters/Basic Charakter Spritesheet.png" id="1_15lq3"]
 [ext_resource type="Script" path="res://entity/character/player.gd" id="1_ahvgr"]
@@ -10,12 +10,41 @@
 radius = 1.0
 height = 10.0
 
-[sub_resource type="Animation" id="Animation_mpprh"]
+[sub_resource type="Animation" id="Animation_jsbpf"]
+resource_name = "swordAttack"
+length = 0.1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("sword:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.785398, -2.35619]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("sword:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0, -5), Vector2(-3, 0), Vector2(0, 5)]
+}
+
+[sub_resource type="Animation" id="Animation_81373"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("recoilAnchor:rotation")
+tracks/0/path = NodePath("sword:rotation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -24,59 +53,38 @@ tracks/0/keys = {
 "update": 0,
 "values": [0.0]
 }
-
-[sub_resource type="Animation" id="Animation_5dt8i"]
-resource_name = "recoil_right"
-length = 0.1
-step = 0.02
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("recoilAnchor:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.02, 0.1),
-"transitions": PackedFloat32Array(1, 1, 1),
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("sword:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [0.0, -0.349066, 0.0]
+"values": [Vector2(0, 0)]
 }
 
-[sub_resource type="Animation" id="Animation_i02x3"]
-resource_name = "recoil_left"
-length = 0.1
-step = 0.02
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("recoilAnchor:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.02, 0.1),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [0.0, 0.349066, 0.0]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_qpw35"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_7he2a"]
 _data = {
-"RESET": SubResource("Animation_mpprh"),
-"recoil_left": SubResource("Animation_i02x3"),
-"recoil_right": SubResource("Animation_5dt8i")
+"RESET": SubResource("Animation_81373"),
+"swordAttack": SubResource("Animation_jsbpf")
 }
 
-[node name="player" type="CharacterBody2D" node_paths=PackedStringArray("animationPlayer", "center", "armGun", "aimGun", "gun", "gunAnimation", "armSword", "sword")]
+[node name="player" type="CharacterBody2D" node_paths=PackedStringArray("animationPlayer", "center", "armGun", "aimGun", "gun", "armSword", "sword", "swordAnimation")]
 z_index = 10
 script = ExtResource("1_ahvgr")
+speed = null
+runningSpeed = null
 animationPlayer = NodePath("AnimationPlayer")
 center = NodePath("center")
 armGun = NodePath("armGun")
-aimGun = NodePath("armGun/recoilAnchor/gun/Marker2D")
-gun = NodePath("armGun/recoilAnchor/gun")
-gunAnimation = NodePath("armGun/gunAnimation")
+aimGun = NodePath("armGun/Marker2D")
+gun = NodePath("armGun/gun")
 armSword = NodePath("armSword")
 sword = NodePath("armSword/sword")
+swordAnimation = NodePath("armSword/AnimationPlayer")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, -8)
@@ -104,24 +112,20 @@ position = Vector2(0, -5)
 [node name="armGun" type="Node2D" parent="."]
 position = Vector2(8, -5)
 
-[node name="gunAnimation" type="AnimationPlayer" parent="armGun"]
-libraries = {
-"": SubResource("AnimationLibrary_qpw35")
-}
-
-[node name="recoilAnchor" type="Node2D" parent="armGun"]
-scale = Vector2(1, 1)
-
-[node name="gun" parent="armGun/recoilAnchor" instance=ExtResource("5_hi6yc")]
+[node name="gun" parent="armGun" instance=ExtResource("5_hi6yc")]
 position = Vector2(4.175, 0)
 scale = Vector2(0.8, 0.8)
 
-[node name="Marker2D" type="Marker2D" parent="armGun/recoilAnchor/gun"]
-position = Vector2(9.781, -2.86)
-scale = Vector2(1.25, 1.25)
+[node name="Marker2D" type="Marker2D" parent="armGun"]
+position = Vector2(11.54, 0)
 
 [node name="armSword" type="Node2D" parent="."]
 visible = false
 position = Vector2(-8, -5)
 
 [node name="sword" parent="armSword" instance=ExtResource("5_lkwe5")]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="armSword"]
+libraries = {
+"": SubResource("AnimationLibrary_7he2a")
+}

@@ -10,6 +10,7 @@ extends CharacterBody2D
 @export var armGun: Node2D;
 @export var aimGun: Marker2D;
 @export var gun: Node2D;
+@export var gunAnimation: AnimationPlayer;
 
 #arm for sword
 @export var armSword: Node2D;
@@ -47,7 +48,7 @@ func handleInput():
 	elif isSwordAttacking:
 		swordAttack();
 		
-	if center.global_rotation < -1.3 and center.global_rotation > -1.7:
+	if center.global_rotation < -1 and center.global_rotation > -2:
 		gun.z_index = -1;
 	else:
 		gun.z_index = 0;
@@ -68,32 +69,38 @@ func handleInput():
 	
 	move_and_slide();
 	animations();
-	
+		
 	
 func switchArm():
 	
 	if isArmSwitch == true:
+		center.rotation = 3;
 		armSword.position = tempPositionGun;
 		armGun.position = tempPositionsword;
 		gun.position.y;
 		
 	elif isArmSwitch == false:
+		center.rotation = 0;
 		armSword.position = tempPositionsword;
 		armGun.position = tempPositionGun;
 		gun.position.y
+
 		
 	
 func swordAttack():
-	print_debug("sword attack")
+	pass
 	
 	
 func gunAttack():
+	var recoilDirection = "right"
+	if isArmSwitch: recoilDirection = "left";
 	var mousePosition = get_global_mouse_position();
 	var direction_to_mouse = mousePosition - armGun.global_position
 	var bullet = bulletInfo.instantiate();
 	get_parent().add_child(bullet);
 	bullet.position = aimGun.global_position;
 	bullet.velocity = direction_to_mouse.normalized()
+	gunAnimation.play("recoil_" + recoilDirection);
 	
 	
 func animations():
