@@ -1,0 +1,60 @@
+[gd_scene load_steps=7 format=3 uid="uid://b1pmaal5br6wg"]
+
+[ext_resource type="Texture2D" uid="uid://beakstseu8ow4" path="res://art/Sprout Lands - Sprites - Basic pack/Characters/Basic Charakter Spritesheet.png" id="1_15lq3"]
+[ext_resource type="Script" path="res://entity/character/player.gd" id="1_ahvgr"]
+[ext_resource type="AnimationLibrary" uid="uid://c5l0w3ui2okau" path="res://entity/an.res" id="3_c5fw0"]
+[ext_resource type="PackedScene" uid="uid://b07xy77ss18pe" path="res://entity/items/gun.tscn" id="5_hi6yc"]
+[ext_resource type="PackedScene" uid="uid://irgn3ijhp2cm" path="res://entity/items/sword.tscn" id="5_lkwe5"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_uy1yv"]
+radius = 1.0
+height = 10.0
+
+[node name="player" type="CharacterBody2D" node_paths=PackedStringArray("animationPlayer", "center", "armGun", "aimGun", "gun", "armSword", "sword")]
+z_index = 10
+script = ExtResource("1_ahvgr")
+animationPlayer = NodePath("AnimationPlayer")
+center = NodePath("center")
+armGun = NodePath("armGun")
+aimGun = NodePath("armGun/Marker2D")
+gun = NodePath("armGun/gun")
+armSword = NodePath("armSword")
+sword = NodePath("armSword/sword")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -8)
+texture = ExtResource("1_15lq3")
+hframes = 4
+vframes = 4
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(0, -8)
+zoom = Vector2(5, 5)
+
+[node name="playerCollision" type="CollisionShape2D" parent="."]
+position = Vector2(0, -1)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_uy1yv")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": ExtResource("3_c5fw0")
+}
+
+[node name="center" type="Node2D" parent="."]
+position = Vector2(0, -5)
+
+[node name="armGun" type="Node2D" parent="."]
+position = Vector2(8, -5)
+
+[node name="gun" parent="armGun" instance=ExtResource("5_hi6yc")]
+position = Vector2(4.175, 0)
+scale = Vector2(0.8, 0.8)
+
+[node name="Marker2D" type="Marker2D" parent="armGun"]
+position = Vector2(11.54, 0)
+
+[node name="armSword" type="Node2D" parent="."]
+position = Vector2(-8, -5)
+
+[node name="sword" parent="armSword" instance=ExtResource("5_lkwe5")]
