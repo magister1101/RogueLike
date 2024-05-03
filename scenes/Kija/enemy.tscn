@@ -1,0 +1,55 @@
+[gd_scene load_steps=6 format=3 uid="uid://due1yaamgqi2a"]
+
+[ext_resource type="Script" path="res://scenes/Kija/enemy.gd" id="1_c2eq4"]
+[ext_resource type="Texture2D" uid="uid://d26el4e0qdv4n" path="res://art/character/knight_sprite-Sheet.png" id="2_a1ls1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vceas"]
+size = Vector2(12, 4)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_sobql"]
+radius = 36.1248
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_x5y0p"]
+radius = 80.7527
+
+[node name="enemy" type="CharacterBody2D" node_paths=PackedStringArray("navAgent")]
+collision_layer = 4
+collision_mask = 7
+motion_mode = 1
+script = ExtResource("1_c2eq4")
+navAgent = NodePath("Navigation/NavigationAgent2D")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_a1ls1")
+hframes = 2
+vframes = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 6)
+shape = SubResource("RectangleShape2D_vceas")
+
+[node name="Navigation" type="Node2D" parent="."]
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="Navigation"]
+
+[node name="Timer" type="Timer" parent="Navigation"]
+wait_time = 0.1
+
+[node name="Aggro" type="Node2D" parent="."]
+
+[node name="AggroRange" type="Area2D" parent="Aggro"]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Aggro/AggroRange"]
+shape = SubResource("CircleShape2D_sobql")
+debug_color = Color(0.592157, 0.298039, 0.121569, 0.419608)
+
+[node name="DeAggroRange" type="Area2D" parent="Aggro"]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Aggro/DeAggroRange"]
+shape = SubResource("CircleShape2D_x5y0p")
+
+[connection signal="timeout" from="Navigation/Timer" to="." method="_on_timer_timeout"]
+[connection signal="area_entered" from="Aggro/AggroRange" to="." method="_on_aggro_range_area_entered"]
+[connection signal="area_exited" from="Aggro/DeAggroRange" to="." method="_on_de_aggro_range_area_exited"]

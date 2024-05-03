@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://brhwaj30q1bdd"]
+
+[ext_resource type="Script" path="res://scenes/Kija/player.gd" id="1_wkgi3"]
+[ext_resource type="Texture2D" uid="uid://d26el4e0qdv4n" path="res://art/character/knight_sprite-Sheet.png" id="2_i5xqa"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7mo6t"]
+size = Vector2(12, 3)
+
+[node name="player" type="CharacterBody2D"]
+z_index = 1
+script = ExtResource("1_wkgi3")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_i5xqa")
+hframes = 2
+vframes = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 6.5)
+shape = SubResource("RectangleShape2D_7mo6t")
